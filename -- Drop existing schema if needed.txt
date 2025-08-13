@@ -1,54 +1,331 @@
--- Drop existing schema if needed
-DROP SCHEMA IF EXISTS hospital_managment;
-CREATE SCHEMA hospital_managment;
-USE hospital_managment;
 
--- 1. Patient Table
-CREATE TABLE Patient (
-  patient_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(100),
-  date_of_birth DATE,
-  gender VARCHAR(10),
-  contact_number VARCHAR(15),
-  address VARCHAR(255),
-  medical_history TEXT
-);
 
--- 2. Doctor Table
-CREATE TABLE Doctor (
-  doctor_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(100),
-  specialization VARCHAR(100),
-  contact_number VARCHAR(15),
-  availability_schedule TEXT
-);
+Description
 
--- 3. Appointment Table
-CREATE TABLE Appointment (
-  appointment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  patient_id BIGINT,
-  doctor_id BIGINT,
-  appointment_date DATE,
-  time_slot VARCHAR(20),
-  status ENUM('CONFIRMED', 'CANCELLED'),
-  FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
-  FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)
-);
 
--- 4. Bill Table
-CREATE TABLE Bill (
-  bill_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  patient_id BIGINT,
-  total_amount DECIMAL(10, 2),
-  payment_status ENUM('PAID', 'UNPAID'),
-  bill_date DATE,
-  FOREIGN KEY (patient_id) REFERENCES Patient(patient_id)
-);
 
--- 5. User Table
-CREATE TABLE User (
-  user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(50) UNIQUE,
-  password VARCHAR(255),
-  role ENUM('ADMIN', 'PATIENT', 'DOCTOR')
-);
+Concepts Covered:
+
+String Manipulation
+Classes and Objects
+Collection Frameworks
+
+
+Problem Description:
+
+
+Win Golf Association is a leading golf club in the city. In their last board meeting, board members decided to collect the membership fee for improving and maintaining the club in top-class condition. As an initiative, the club outlined development of software that would help them to maintain the club members' information.
+
+You being their software consultant have been approached to develop software to implement certain functionalities mentioned below.
+
+
+
+Requirement 1: Define the 'Member' class and its required members.  All the attributes should be private.
+
+ Component Specification: Member (Model Class)
+
+Type(Class)
+
+Attributes
+
+Type of attributes
+
+Values
+
+ 
+
+Member
+
+member_id
+
+member_name 
+
+member_type
+
+tenure
+
+total_fee
+
+string
+
+string
+
+string
+
+integer
+
+float
+
+User input
+
+User input
+
+User input
+
+User input
+
+Should be a calculated value
+
+ 
+
+Type(Class)
+
+Methods
+
+Responsibilities
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Member
+
+ 
+
+A parameterized constructor with 4 arguments: member_id, member_name,  member_type, and tenure respectively.
+
+To initialize the private member variables like member_id, member_name, member_type, tenure, and total_fee.  Initialize the total_fee with its default value.
+
+ 
+
+Included necessary getters and setters for the private attributes
+
+ 
+
+ 
+
+calculate_total_fee(self)
+
+This method is used to calculate the membership fees of the club members based on the member types and set it to the private member variable: total_fee. The total_fee should be calculated as:
+
+ 
+
+Types of
+Membership
+
+
+Entrance Fee* (A)
+
+
+Annual Subscription*
+Fees (B)
+
+Security Deposit*
+(C)
+
+GST (D)
+
+Total Fee
+ (E )
+
+Premium
+
+ 
+
+ 
+
+ 
+
+10,00,000
+
+ 
+
+ 
+
+ 
+
+33,000
+
+ 
+
+ 
+
+ 
+
+50,000
+
+If the tenure is >5 years, then GST is 18%  of (A+B) else 10% of (A+B)
+
+ 
+
+ 
+
+ 
+
+(A+B+C+D)
+
+Gold
+
+8,00,000
+
+33,000
+
+25,000
+
+If the tenure is >5 years,  then GST is 15%  of (A+B) else 8%  of (A+B)
+
+ 
+
+ 
+
+ 
+
+ 
+
+(A+B+C+D)
+
+ 
+
+ 
+
+Requirement 2: Store the 'Member' Details
+
+The club management needs to store each of their member details for their future reference.  For this, you have to create a utility class called 'MemberManagement' in member_management.py to perform a few functionalities.
+
+The method 'add_member_details'  should create a 'Member' object using the parameterized constructor and set the values to the required attributes as per the given specifications.  Then calculate and set the value to the total_fee  private member variable by invoking the 'calculate_total_fee'  method and add this 'Member' object to the list with the name 'member_list'.
+
+Component Specification: MemberManagement (Utility Class)
+
+Component Name
+
+Type(Class)
+
+Attributes
+
+ Type of attributes
+
+Methods
+
+Responsibilities
+
+ 
+
+ 
+
+MemberManagement
+
+ 
+
+member_list
+
+ 
+
+   List
+
+ 
+
+Add Member Object
+
+MemberManagement
+
+ 
+
+ 
+
+add_member_details (self, member_id, member_name, member_type,tenure)
+
+This method has to create a Member object, calculate the total fee, and set this value to the 'total_fee' attribute of Member class.  
+
+Then this object needs to be added to the member_list attribute.  
+
+This method need not return anything. 
+
+ 
+
+Requirement 3: View the member details based on the membership type and tenure
+
+The club management wants to verify the details of the member details for various purposes.   
+
+The method 'view_member_details' should take the member type as the parameter and it should fetch the membership ID and total fee of those members (objects)  who belong to the member type specified as the argument to this method.   Store these details in a dictionary where member_id should be set as the key and the total_fee as the value and return the dictionary.
+
+Component Specification: MemberManagement(Utility Class)
+
+Component Name
+
+Type(Class)
+
+Methods
+
+Returns
+
+Responsibilities
+
+View Member Details
+
+MemberManagement
+
+ view_member_details (self,member_type)
+
+Dictionary
+
+This method should fetch the member ID and total fee of the club members from the member object  stored in the member_list, if they belong to the specified member type.
+
+ Fetch those details and store them in a dictionary and set the key as 'member_id' and 'total_fee' as the value and return the same.  
+
+If none of the members have met this criterion, the method should return an empty dictionary.
+
+ 
+
+Process Flow:
+
+The file 'main.py' is to get the inputs like the number of members and each member's details from the user.
+The member details should be in the form of a string in the following format: member_id:member_name:member_type: tenure.
+Parse these member details and pass the same as arguments to the 'add_member_details' method in the MemberManagement class which will create and add the 'Member' object to the list.
+After adding the object to the list, get the membership type to be searched by the user to view the details of those members who belong to the type specified by the user.  For this, invoke the 'view_member_details' method for fetching the membership id and the total fee of the members.
+If 'view_member_details' returns an empty dictionary, then display the message "No members found" else display the member details as shown in the sample input/output statements.
+Note:
+
+In the sample Input / Output provided, the highlighted text in bold corresponds to the input given by the user and the rest of the text represent the output.
+Ensure to provide the names for classes, attributes, and methods as specified in the question description.
+Adhere to the code template, if provided and do not edit or delete the codes provided in the code template.
+ 
+
+Sample Input 1:
+
+Enter the no. of members: 4
+
+Enter member details 1:
+M35672:Raon:Gold:6
+
+Enter member details 2:
+M90183:Shain:Premium:8
+
+Enter member details 3:
+M89045:Jane:Gold:2
+
+Enter member details 4:
+M34212:Jack:Premium:5
+
+Enter the member type: Premium
+
+Sample Output 1:
+
+No. of members: 2
+
+Member id: M90183 - Total fee: 1268940.0
+
+Member id: M34212 - Total fee: 1186300.0
+
+ 
+
+Sample Input 2:
+
+Enter the no. of members: 2
+
+Enter member details 1:
+M92134:John:Premium:9
+
+Enter member details 2:
+M65912:Tom:Premium:2
+
+Enter the member type: Gold
+
+Sample Output 1:
+
+No members found
