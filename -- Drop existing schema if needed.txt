@@ -1,0 +1,54 @@
+-- Drop existing schema if needed
+DROP SCHEMA IF EXISTS hospital_managment;
+CREATE SCHEMA hospital_managment;
+USE hospital_managment;
+
+-- 1. Patient Table
+CREATE TABLE Patient (
+  patient_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100),
+  date_of_birth DATE,
+  gender VARCHAR(10),
+  contact_number VARCHAR(15),
+  address VARCHAR(255),
+  medical_history TEXT
+);
+
+-- 2. Doctor Table
+CREATE TABLE Doctor (
+  doctor_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100),
+  specialization VARCHAR(100),
+  contact_number VARCHAR(15),
+  availability_schedule TEXT
+);
+
+-- 3. Appointment Table
+CREATE TABLE Appointment (
+  appointment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  patient_id BIGINT,
+  doctor_id BIGINT,
+  appointment_date DATE,
+  time_slot VARCHAR(20),
+  status ENUM('CONFIRMED', 'CANCELLED'),
+  FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
+  FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)
+);
+
+-- 4. Bill Table
+CREATE TABLE Bill (
+  bill_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  patient_id BIGINT,
+  total_amount DECIMAL(10, 2),
+  payment_status ENUM('PAID', 'UNPAID'),
+  bill_date DATE,
+  FOREIGN KEY (patient_id) REFERENCES Patient(patient_id)
+);
+
+-- 5. User Table
+CREATE TABLE User (
+  user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(50) UNIQUE,
+  password VARCHAR(255),
+  role ENUM('ADMIN', 'PATIENT', 'DOCTOR')
+);
